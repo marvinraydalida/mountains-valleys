@@ -12,6 +12,7 @@ public class valley{
 		s = s.toLowerCase();
 
 		int[] pattern = new int[n + 2];
+		int[] patternClone = new int[n + 2];
 		String[][] array = new String[(n * 2) + 2][n + 2];
 
 		for(int ya = 0; ya < (n * 2) + 1; ya++){
@@ -40,52 +41,95 @@ public class valley{
 
 			x++;
 		}
-
-
-
+	
 		if (String.valueOf(s.charAt(n - 1)).equals("u"))
 			pattern[n + 1] = pattern[n] - 1;
 		else if (String.valueOf(s.charAt(n - 1)).equals("d")) 
 			pattern[n + 1] = pattern[n];
+
+		/////----------------------------------------------------------
+		
+		for (int clone = 0; clone < n+2 ; clone++) {
+			patternClone[clone] = pattern[clone];
+		}
+
+		for(int num = patternClone.length - 1; num > patternClone.length -patternClone.length ; num--){
+			if (patternClone[num] < patternClone[num - 1]) {
+				int o = patternClone[num];
+				patternClone[num] = patternClone[num - 1];
+				patternClone[num - 1] = o;
+			}
+		}
+
+		int lowest = patternClone[0] - 2;
+
+		
+
+		/////-----------------------------------------------------------
 		
 		int num = 0;
 
 		for (int i = 1; i < n + 1; i++) {
 			if (String.valueOf(s.charAt(num)).equals("u")) {
-				array[pattern[i]][i] = "/";
+				array[pattern[i]- lowest][i] = "/";
 			}
 			else if (String.valueOf(s.charAt(num)).equals("d")) {
-				array[pattern[i]][i] = "\\";
+				array[pattern[i]- lowest][i] = "\\";
 			}
 			num++;
 		}
 
-		array[pattern[0]][0] = "_";
-		array[pattern[n+1]][n+1] = "_";
-
+		array[pattern[0] - lowest][0] = "_";
+		array[pattern[n+1] - lowest][n+1] = "_";
+		
 		num = 0;
 
 		for (int i = 1; i < n + 1; i++) {
 			if (String.valueOf(s.charAt(num)).equals("u")) {
-				array[pattern[i] - 1][i] = "/";
+				array[pattern[i] - (lowest - 1)][i] = "/";
 			}
 			else if (String.valueOf(s.charAt(num)).equals("d")) {
-				array[pattern[i] - 1][i] = "\\";
+				array[pattern[i] -(lowest - 1)][i] = "\\";
 			}
 			num++;
 		}
 
-		array[pattern[0] - 1][0] = "_";
-		array[pattern[n+1] - 1][n+1] = "_";
+		array[pattern[0] - (lowest - 1)][0] = "_";
+		array[pattern[n+1] - (lowest - 1)][n+1] = "_";
 
-		for (int b = 0; b < (n * 2) + 1 ;b++ ) {
+		//------------------------------------------------------	
+		boolean empty = true;
+		int excess = 0;
+		for (int re = n * 2 - 1; re >= 0; re-- ) {
+			for (int ro = n + 1 - 1; ro >= 0 ; ro--) {
+				if (array[re][ro].equals("_") || array[re][ro].equals("/") || array[re][ro].equals("\\")) {
+					empty = false;
+					break;
+				}
+			}
+			if (empty == false) {
+					break;
+			}
+			excess++;
+		}
+		//------------------------------------------------------
+		for (int b = 0; b < ((n * 2) + 1) - excess ;b++ ) {
 			for (int y = 0; y < n + 2 ;y++ ) {
 				System.out.print(array[b][y]);
 			}
 			System.out.print("\n");
 		}
 
-	
+		/*for (int ya : pattern) {
+			System.out.print(ya);
+		}
+		System.out.print("\n" );
+		for (int ye : patternClone) {
+			System.out.print(ye);
+		}
+
+		System.out.print("\n" + patternClone[0] + " " + excess);*/
+
 	}
 
 }
