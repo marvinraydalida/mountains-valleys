@@ -4,8 +4,9 @@ public class valley{
 	
 	public static void main(String[] args){
 		Scanner scan = new Scanner(System.in);
-
+		System.out.print("Enter number of steps: ");
 		int n = scan.nextInt();
+		System.out.print("Enter d or u: ");
 		String s = scan.next();
 
 		s = s.toLowerCase();
@@ -62,16 +63,27 @@ public class valley{
 		array[pattern[0]][0] = "_";
 		array[pattern[n+1]][n+1] = "_";
 
+		num = 0;
+
+		for (int i = 1; i < n + 1; i++) {
+			if (String.valueOf(s.charAt(num)).equals("u")) {
+				array[pattern[i] - 1][i] = "/";
+			}
+			else if (String.valueOf(s.charAt(num)).equals("d")) {
+				array[pattern[i] - 1][i] = "\\";
+			}
+			num++;
+		}
+
+		array[pattern[0] - 1][0] = "_";
+		array[pattern[n+1] - 1][n+1] = "_";
+
 		for (int b = 0; b < (n * 2) + 1 ;b++ ) {
 			for (int y = 0; y < n + 2 ;y++ ) {
 				System.out.print(array[b][y]);
 			}
 			System.out.print("\n");
 		}
-
-
-		for(int i : pattern)
-			System.out.print(i);
 
 	
 	}
