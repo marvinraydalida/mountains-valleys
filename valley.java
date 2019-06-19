@@ -20,12 +20,28 @@ public class valley{
 				array[ya][y] = " ";
 			}
 		}
-
-		pattern[0] = n + 1;
+		/////----------------------------------------------------------
+		pattern[0] = n + 1; 
 
 		int up = n + 1;
 		int down = n + 2;
 		int x = 1;
+
+
+		//This loop goes like this:
+		//If n is equal to 7 pattern[0] will start at 8. If the char, that is currently selected, from the string is equal to
+		//"u", pattern[1] is equal to pattern[0]. But if the char is equal to "d" pattern 2 is equal to 7.
+		//The next value of pattern will stay the same if the next char was different from the previous char.
+		//udu
+		//If it is the same "u" will decrement and "d" will increment.
+		//Example:
+		//n = 3 and s = "udu"
+		//pattern values, starting from index 0, looks like this
+		//4444
+		//Since the char was different from the previous one the value stays the same but if the input is like this:
+		//n = 3 and s = "uuu" pattern values, starting from index 0, looks like this
+		//4432
+
 
 		for (int i = 0; i < n ; i++) {
 			if(String.valueOf(s.charAt(i)).equals("u")) {
@@ -41,7 +57,9 @@ public class valley{
 
 			x++;
 		}
-	
+
+
+		//This conditions are used to determine what value is the last index of pattern.
 		if (String.valueOf(s.charAt(n - 1)).equals("u"))
 			pattern[n + 1] = pattern[n] - 1;
 		else if (String.valueOf(s.charAt(n - 1)).equals("d")) 
@@ -53,6 +71,8 @@ public class valley{
 			patternClone[clone] = pattern[clone];
 		}
 
+
+		//This loop gets the lowest number and place it to the lowest index of the patternClone array.
 		for(int num = patternClone.length - 1; num > patternClone.length -patternClone.length ; num--){
 			if (patternClone[num] < patternClone[num - 1]) {
 				int o = patternClone[num];
@@ -65,12 +85,16 @@ public class valley{
 
 		
 
-		/////-----------------------------------------------------------
-		
+		/////----------------------------------------------------------
+		//This part will fill the blank indices with strings such as "/","\\" and "_".
+
+
 		int num = 0;
 
 		for (int i = 1; i < n + 1; i++) {
 			if (String.valueOf(s.charAt(num)).equals("u")) {
+				//Row was subtracted by int lowest so that it moves up when it prints because it will print in the center if
+				//not subtracted. 
 				array[pattern[i]- lowest][i] = "/";
 			}
 			else if (String.valueOf(s.charAt(num)).equals("d")) {
@@ -97,7 +121,13 @@ public class valley{
 		array[pattern[0] - (lowest - 1)][0] = "_";
 		array[pattern[n+1] - (lowest - 1)][n+1] = "_";
 
-		//------------------------------------------------------	
+		/////----------------------------------------------------------	
+		//This part determines the indices at array[][] from bottom to top, right to left.
+		//If the row is all blank, " ", excess will increment proving that every column from the row was empty.
+		//The loop will break if it found strings such as "_", "/" and "\\", which proves that every column from the row was not empty.
+		//The excess is then subtracted to the total row count of array[][] so that it will not print blank indices.
+
+
 		boolean empty = true;
 		int excess = 0;
 		for (int re = n * 2 - 1; re >= 0; re-- ) {
@@ -112,7 +142,7 @@ public class valley{
 			}
 			excess++;
 		}
-		//------------------------------------------------------
+		/////----------------------------------------------------------
 		for (int b = 0; b < ((n * 2) + 1) - excess ;b++ ) {
 			for (int y = 0; y < n + 2 ;y++ ) {
 				System.out.print(array[b][y]);
@@ -120,6 +150,8 @@ public class valley{
 			System.out.print("\n");
 		}
 
+
+		//This part is only used if you want to know the indices of the array that is not empty.
 		/*for (int ya : pattern) {
 			System.out.print(ya);
 		}
