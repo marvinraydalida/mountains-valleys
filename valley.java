@@ -96,15 +96,19 @@ public class valley{
 				//Row was subtracted by int lowest so that it moves up when it prints because it will print in the center if
 				//not subtracted. 
 				array[pattern[i]- lowest][i] = "/";
+				array[pattern[i] - (lowest - 1)][i] = "/";
 			}
 			else if (String.valueOf(s.charAt(num)).equals("d")) {
 				array[pattern[i]- lowest][i] = "\\";
+				array[pattern[i] -(lowest - 1)][i] = "\\";
 			}
 			num++;
 		}
 
 		array[pattern[0] - lowest][0] = "_";
 		array[pattern[n+1] - lowest][n+1] = "_";
+		array[pattern[0] - (lowest - 1)][0] = "_";
+		array[pattern[n+1] - (lowest - 1)][n+1] = "_";
 		
 		num = 0;
 
